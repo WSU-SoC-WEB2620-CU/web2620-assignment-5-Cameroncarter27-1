@@ -9,15 +9,17 @@ body {
 
 $weight: 300;
 $container-width: 1200px;
-$width: calc(100% / 12) calc((100% / 12)*2) calc((100% / 12)*3) calc((100% / 12)*4) calc((100% / 12)*5) calc((100% / 12)*6) calc((100% / 12)*7) calc((100% / 12)*8) calc((100% / 12)*9) calc((100% / 12)*10) calc((100% / 12)*11) calc((100% / 12)*12);
-$img-size: 100%;
+$width: 8.3333% 16.6667% 25% 33.3333% 41.6667% 50% 58.3333% 66.6667% 75% 83.3333% 91.6667% 100%;
+
+// calc(100% / 12) calc((100% / 12)*2) calc((100% / 12)*3) calc((100% / 12)*4) calc((100% / 12)*5) calc((100% / 12)*6) calc((100% / 12)*7) calc((100% / 12)*8) calc((100% / 12)*9) calc((100% / 12)*10) calc((100% / 12)*11) calc((100% / 12)*12)
+$i-size: 100%;
 $ul-border: rgba(0, 0, 0, .1);
 $ul-default: rgba(255, 255, 255, .5);
 $sub-sup-font-size: 0.8em;
 $button-color: #0d6efd;
 $basic-color: #fff;
 $balloon-color: #333;
-$make-column: 1 2 3 4 5 6 7 8 9 10 11 12;
+$column-list: 1 2 3 4 5 6 7 8 9 10 11 12;
 
 body,
 input,
@@ -93,19 +95,21 @@ table {
 header {
   margin-bottom: 2em;
   line-height: 1.7em;
+
+  & h2 {
+    font-size: 2.5em;
+  }
+  
+  & .byline {
+    display: block;
+    margin: 0.5em 0 0 0;
+    padding: 0 0 0.5em 0;
+    text-transform: uppercase;
+    font-size: 1.4em;
+  }
 }
 
-header h2 {
-  font-size: 2.5em;
-}
 
-header .byline {
-  display: block;
-  margin: 0.5em 0 0 0;
-  padding: 0 0 0.5em 0;
-  text-transform: uppercase;
-  font-size: 1.4em;
-}
 
 section,
 article {
@@ -135,8 +139,11 @@ footer {
 
 // Container Styles
 
+@mixin make-column($width){
+  width: $width;
+}
 
-@mixin container-styles($container-width) {
+.container {
   width: $container-width;
   margin-left: auto;
   margin-right: auto;
@@ -150,11 +157,43 @@ footer {
     max-width: 1500px;
     min-width: $container-width;
   }
+  .row {
+    margin-left: -50px;
+  
+    & section,
+    & article {
+      margin-bottom: 0;
+    }
+  
+    & [class*='column-'] {
+      padding: 50px 0 0 50px;
+      float: left;
+      box-sizing: border-box;
+    }
+  
+  
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+      height: 0;
+    }
+
+    @each $column in $column-list {
+      $index: index($column-list, $column);
+  
+      &.column-#{$column} {
+        @include make-column(nth($width, $index));
+      }
+    }
+  }
+
+
 }
 
-.container {
-  @include container-styles($container-width);
-}
+// .container {
+//   @include container-styles($container-width);
+// }
 
 /*
 .container.small {
@@ -168,33 +207,9 @@ footer {
 }*/
 
 // Row Styles
-@mixin row-styles {
-  margin-left: -50px;
-
-  & section,
-  & article {
-    margin-bottom: 0;
-  }
-
-  & [class*='column-'] {
-    padding: 50px 0 0 50px;
-    float: left;
-    box-sizing: border-box;
-  }
 
 
-  &:after {
-    content: '';
-    display: block;
-    clear: both;
-    height: 0;
-  }
-}
 
-.row {
-  @include row-styles;
-
-}
 
 /*
 .row section,
@@ -221,90 +236,91 @@ footer {
 
 // Column Styles
 
-@mixin make-column($width) {
-  @media all and (min-width: 576px) {
+// @mixin make-column($width) {
+//   @media all and (min-width: 576px) {
 
 
-    .column-1 {
-      width: $width;
-    }
+//     .column-1 {
+//       width: $width;
+//     }
 
-    .column-2 {
-      width: calc($width*2);
-    }
+//     .column-2 {
+//       width: calc($width*2);
+//     }
 
-    .column-3 {
-      width: calc($width*3);
-    }
+//     .column-3 {
+//       width: calc($width*3);
+//     }
 
-    .column-4 {
-      width: calc($width*4);
-    }
+//     .column-4 {
+//       width: calc($width*4);
+//     }
 
-    .column-5 {
-      width: calc($width*5);
-    }
+//     .column-5 {
+//       width: calc($width*5);
+//     }
 
-    .column-6 {
-      width: calc($width*6);
-    }
+//     .column-6 {
+//       width: calc($width*6);
+//     }
 
-    .column-7 {
-      width: calc($width*7);
-    }
+//     .column-7 {
+//       width: calc($width*7);
+//     }
 
-    .column-8 {
-      width: calc($width*8);
-    }
+//     .column-8 {
+//       width: calc($width*8);
+//     }
 
-    .column-9 {
-      width: calc($width*9);
-    }
+//     .column-9 {
+//       width: calc($width*9);
+//     }
 
-    .column-10 {
-      width: calc($width*10);
-    }
+//     .column-10 {
+//       width: calc($width*10);
+//     }
 
-    .column-11 {
-      width: calc($width*11);
-    }
+//     .column-11 {
+//       width: calc($width*11);
+//     }
 
-    .column-12 {
-      width: calc($width*12);
-    }
-  }
+//     .column-12 {
+//       width: calc($width*12);
+//     }
+//   }
 
-}
+// }
 
-.column-1,
-.column-2,
-.column-3,
-.column-4,
-.column-5,
-.column-6,
-.column-7,
-.column-8,
-.column-9,
-.column-10,
-.column-11,
-.column-12 {
-  // @include make-column($width);
-  width: 100%;
+// .column-1,
+// .column-2,
+// .column-3,
+// .column-4,
+// .column-5,
+// .column-6,
+// .column-7,
+// .column-8,
+// .column-9,
+// .column-10,
+// .column-11,
+// .column-12 {
+//   // @include make-column($width);
+//   width: 100%;
 
-  @each $column in $make-column {
-    $index: index($make-column, $column);
+//   @each $column in $column-list {
+//     $index: index($column-list, $column);
 
-    &.column-#{$column} {
-      @include make-column(nth($width, $index));
-    }
-  }
-}
+//     &.column-#{$column} {
+//       @include make-column(nth($width, $index));
+//     }
+//   }
+// }
 
 
 
 // Image Styles
 
-@mixin image-styles($i-size) {
+.image {
+  display: inline-block;
   & img {
     display: block;
     width: $i-size;
@@ -338,10 +354,6 @@ footer {
   }
 }
 
-.image {
-  @include image-styles($img-size);
-  display: inline-block;
-}
 
 /*
 .image {
@@ -380,92 +392,171 @@ footer {
   width: auto;
 }*/
 
-
-
-ul.default {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+ul {
+  &.default {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  &.default li {
+    display: block;
+    padding: 2em 0em 1.25em 0em;
+    border-top: 1px solid #303030;
+  }
+  
+  &.default li:first-child {
+    padding-top: 0em;
+    border-top: none;
+  }
+  
+  &.default a {
+    text-decoration: none;
+    color: $ul-default;
+  }
+  
+  &.default a:hover {
+    text-decoration: underline;
+  }
+  
+  &.style1 {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  &.style1 li {
+    padding: 0.60em 0em;
+    border-top: 1px solid;
+    border-color: $ul-border;
+  }
+  
+  &.style1 li:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+  
+  &.style2 {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  &.style2 li {
+    padding: 1.90em 0em 1.60em 0em;
+    border-top: 1px solid;
+    border-color: $ul-border;
+  }
+  
+  &.style2 li:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+  
+  &.style2 img {
+    float: left;
+    padding-right: 1em;
+  }
+  
+  &.style5 {
+    overflow: hidden;
+    margin: 0em 0em 1em 0em;
+    padding: 0em;
+    list-style: none;
+  }
+  
+  &.style5 li {
+    float: left;
+    padding: 0.25em 0.25em;
+    line-height: 0;
+  }
 }
 
-ul.default li {
-  display: block;
-  padding: 2em 0em 1.25em 0em;
-  border-top: 1px solid #303030;
-}
 
-ul.default li:first-child {
-  padding-top: 0em;
-  border-top: none;
-}
+// ul.default {
+//   margin: 0;
+//   padding: 0;
+//   list-style: none;
+// }
 
-ul.default a {
-  text-decoration: none;
-  color: $ul-default;
-}
+// ul.default li {
+//   display: block;
+//   padding: 2em 0em 1.25em 0em;
+//   border-top: 1px solid #303030;
+// }
 
-ul.default a:hover {
-  text-decoration: underline;
-}
+// ul.default li:first-child {
+//   padding-top: 0em;
+//   border-top: none;
+// }
 
-ul.style1 {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
+// ul.default a {
+//   text-decoration: none;
+//   color: $ul-default;
+// }
 
-ul.style1 li {
-  padding: 0.60em 0em;
-  border-top: 1px solid;
-  border-color: $ul-border;
-}
+// ul.default a:hover {
+//   text-decoration: underline;
+// }
 
-ul.style1 li:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
+// ul.style1 {
+//   margin: 0;
+//   padding: 0;
+//   list-style: none;
+// }
 
-ul.style2 {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
+// ul.style1 li {
+//   padding: 0.60em 0em;
+//   border-top: 1px solid;
+//   border-color: $ul-border;
+// }
 
-ul.style2 li {
-  padding: 1.90em 0em 1.60em 0em;
-  border-top: 1px solid;
-  border-color: $ul-border;
-}
+// ul.style1 li:first-child {
+//   padding-top: 0;
+//   border-top: 0;
+// }
 
-ul.style2 li:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
+// ul.style2 {
+//   margin: 0;
+//   padding: 0;
+//   list-style: none;
+// }
 
-ul.style2 img {
-  float: left;
-  padding-right: 1em;
-}
+// ul.style2 li {
+//   padding: 1.90em 0em 1.60em 0em;
+//   border-top: 1px solid;
+//   border-color: $ul-border;
+// }
 
-ul.style5 {
-  overflow: hidden;
-  margin: 0em 0em 1em 0em;
-  padding: 0em;
-  list-style: none;
-}
+// ul.style2 li:first-child {
+//   padding-top: 0;
+//   border-top: 0;
+// }
 
-ul.style5 li {
-  float: left;
-  padding: 0.25em 0.25em;
-  line-height: 0;
-}
+// ul.style2 img {
+//   float: left;
+//   padding-right: 1em;
+// }
 
-.button {
+// ul.style5 {
+//   overflow: hidden;
+//   margin: 0em 0em 1em 0em;
+//   padding: 0em;
+//   list-style: none;
+// }
+
+// ul.style5 li {
+//   float: left;
+//   padding: 0.25em 0.25em;
+//   line-height: 0;
+// }
+
+@mixin button-styles($color) {
   position: relative;
   display: inline-block;
   margin-top: 0.5em;
   padding: 0.50em 1.5em;
-  background: $button-color;
+  background: $color;
   border-radius: 6px;
   text-decoration: none;
   text-transform: uppercase;
@@ -473,35 +564,49 @@ ul.style5 li {
   color: $basic-color;
   transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
   cursor: pointer;
+
+  &:hover {
+    background: $color;
+    color: $basic-color !important;
+  }
 }
 
-.button:hover {
-  background: $button-color;
-  color: $basic-color !important;
+.button {
+  @include button-styles($button-color);
 }
+
+
 
 .header {
   position: relative;
   background: $basic-color;
+
+  & .container {
+    position: relative;
+    padding: 4em 0em;
+  }
 }
 
-.header .container {
-  position: relative;
-  padding: 4em 0em;
-}
 
-.logo {
+
+@mixin logo-styles {
   position: absolute;
   left: 0em;
   top: 3em;
+
+  & a {
+    display: block;
+    text-decoration: none;
+    font-size: 2.8em;
+    font-weight: 600;
+  }
 }
 
-.logo a {
-  display: block;
-  text-decoration: none;
-  font-size: 2.8em;
-  font-weight: 600;
+.logo {
+  @include logo-styles;
 }
+
+
 
 @import "nav";
 
@@ -568,7 +673,7 @@ ul.style5 li {
 
 // Footer Styles
 
-@mixin footer-styles {
+.footer {
   position: relative;
   color: rgba(255, 255, 255, .4);
 
@@ -583,9 +688,7 @@ ul.style5 li {
   }
 }
 
-.footer {
-  @include footer-styles;
-}
+
 
 /*
 .footer {
@@ -610,25 +713,31 @@ ul.style5 li {
   letter-spacing: 1px;
   text-align: center;
   color: rgba(255, 255, 255, .4);
+
+  & a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, .4) !important;
+  }
 }
 
-.copyright a {
-  text-decoration: none;
-  color: rgba(255, 255, 255, .4) !important;
-}
+
 
 .marketing {
   position: relative;
+
+  & header h2 {
+    font-size: 1.6em;
+  }
 }
 
-.marketing header h2 {
-  font-size: 1.6em;
-}
+
 
 // Featured Styles
 
 
-@mixin featured-styles {
+.featured {
+  position: relative;
+
   & .divider {
     border-bottom: 1px solid #303030;
   }
@@ -641,10 +750,7 @@ ul.style5 li {
   }
 }
 
-.featured {
-  @include featured-styles;
-  position: relative;
-}
+
 
 /*
 .featured {
@@ -669,12 +775,13 @@ ul.style5 li {
   line-height: 180%;
   font-size: 1.2em;
   color: $balloon-color;
+
+  & strong {
+    color: $balloon-color !important;
+  }
 }
 
 .ballon-bgbtm {
   height: 1.87em;
 }
 
-.balloon strong {
-  color: $balloon-color !important;
-}
